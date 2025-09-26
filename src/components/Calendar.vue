@@ -55,7 +55,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onActivated, nextTick, watch } from 'vue';
+import {
+  ref,
+  computed,
+  onMounted,
+  onActivated,
+  nextTick,
+  watch,
+  watchEffect,
+} from 'vue';
 import FullCalendar from '@fullcalendar/vue3';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -68,6 +76,7 @@ import AddEventDialog from './AddEventDialog.vue';
 import EventViewDialog from './EventViewDialog.vue';
 import EditEventDialog from './EditEventDialog.vue';
 import { useEventsStore } from '@/stores/events';
+import { useTheme } from '@/composables/useTheme';
 import { earliestTime, latestTime } from '@/utils/data';
 import { getDateFromMinutes } from '@/utils';
 
@@ -83,6 +92,9 @@ const props = withDefaults(defineProps<Props>(), {
 // Store
 const eventsStore = useEventsStore();
 const { events } = eventsStore;
+
+// Theme
+const { theme } = useTheme();
 
 // Calendar ref
 const calendarRef = ref<InstanceType<typeof FullCalendar> | null>(null);
@@ -195,7 +207,15 @@ function handleEventDidMount(info: any) {
   const el = info.el;
   el.style.borderRadius = '6px';
   el.style.border = 'none';
-  el.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)';
+
+  // Check for dark mode and apply appropriate shadow
+  const isDarkMode = document.documentElement.classList.contains('dark');
+  if (isDarkMode) {
+    el.style.boxShadow =
+      '0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(255, 255, 255, 0.1)';
+  } else {
+    el.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)';
+  }
 }
 
 // Render functions
@@ -330,6 +350,35 @@ onMounted(() => {
   }
 });
 
+// Function to update event shadows when theme changes
+function updateEventShadows() {
+  nextTick(() => {
+    const eventElements = document.querySelectorAll('.fc-event');
+    const isDarkMode = document.documentElement.classList.contains('dark');
+
+    eventElements.forEach((el) => {
+      const element = el as HTMLElement;
+      if (isDarkMode) {
+        element.style.boxShadow =
+          '0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(255, 255, 255, 0.1)';
+      } else {
+        element.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)';
+      }
+    });
+  });
+}
+
+// Theme watcher to refresh calendar appearance and event styles
+watchEffect(() => {
+  if (theme.value) {
+    nextTick(() => {
+      refreshCalendar();
+      // Update existing event shadows when theme changes
+      updateEventShadows();
+    });
+  }
+});
+
 // Expose refresh method to parent component
 defineExpose({
   refreshCalendar,
@@ -344,28 +393,97 @@ defineExpose({
 /* FullCalendar custom styling */
 :deep(.fc-theme-standard .fc-scrollgrid) {
   border: none;
+  background-color: hsl(var(--background));
 }
 
 :deep(.fc-theme-standard td, .fc-theme-standard th) {
   border-color: hsl(var(--border));
 }
 
+:deep(.dark .fc-theme-standard td, .dark .fc-theme-standard th) {
+  border-color: hsl(var(--border)) / 0.2;
+}
+
+/* Calendar background and general styling */
+:deep(.fc-view-harness) {
+  background-color: hsl(var(--background));
+}
+
+:deep(.fc-daygrid-day) {
+  background-color: hsl(var(--background));
+}
+
+:deep(.fc-timegrid-col) {
+  background-color: hsl(var(--background));
+}
+
+/* Dark mode styles moved to global main.css for proper functionality */
+
+/* Header columns styling */
 :deep(.fc-col-header-cell-cushion) {
   font-size: 0.875rem;
   font-weight: 500;
-  color: hsl(var(--muted-foreground));
+  color: hsl(var(--foreground));
   padding: 0.5rem;
 }
+
+:deep(.fc-col-header-cell) {
+  background-color: hsl(var(--muted) / 0.3);
+}
+
+/* Dark mode header styles moved to global main.css */
+
+/* Week view header improvements */
+:deep(.fc-col-header-row) {
+  background-color: hsl(var(--muted) / 0.2);
+}
+
+/* Dark mode row styling moved to global main.css */
+
+/* All-day slot styling (if needed) */
+:deep(.fc-timegrid-axis-cushion) {
+  color: hsl(var(--muted-foreground));
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* Dark mode axis styling moved to global main.css */
 
 :deep(.fc-daygrid-day-number) {
   font-size: 0.875rem;
   font-weight: 500;
+  color: hsl(var(--foreground));
 }
+
+/* Week view day numbers (light mode only) */
+:deep(.fc-col-header-day-number) {
+  color: hsl(var(--foreground));
+  font-weight: 500;
+}
+
+/* All possible day number classes (light mode only) */
+:deep(.fc-daygrid-day-top) {
+  color: hsl(var(--foreground));
+}
+
+/* Dark mode day number styles moved to global main.css */
 
 :deep(.fc-timegrid-slot-label-cushion) {
   font-size: 0.75rem;
   color: hsl(var(--muted-foreground));
 }
+
+/* Time slot styling */
+:deep(.fc-timegrid-slot-label) {
+  background-color: hsl(var(--background));
+  border-right: 1px solid hsl(var(--border));
+}
+
+:deep(.fc-timegrid-slots td) {
+  border-top: 1px solid hsl(var(--border));
+}
+
+/* Dark mode time slot styles moved to global main.css */
 
 :deep(.fc-event) {
   cursor: pointer;
@@ -374,6 +492,11 @@ defineExpose({
 :deep(.fc-event-title) {
   font-size: 0.75rem;
   font-weight: 500;
+}
+
+/* Today styling */
+:deep(.fc-day-today) {
+  background-color: hsl(var(--muted) / 0.3) !important;
 }
 
 :deep(.fc-day-today .fc-daygrid-day-number) {
@@ -386,9 +509,44 @@ defineExpose({
   align-items: center;
   justify-content: center;
   font-size: 0.75rem;
+  font-weight: 600;
 }
 
+/* Dark mode today styling moved to global main.css */
+
+/* Event styling improvements */
+:deep(.fc-event-main) {
+  padding: 2px 4px;
+}
+
+/* Dark mode event styling moved to global main.css */
+
+/* Hide default FullCalendar buttons */
 :deep(.fc-button) {
   display: none;
 }
+
+/* Hover effects for better interactivity */
+:deep(.fc-daygrid-day:hover) {
+  background-color: hsl(var(--muted) / 0.5);
+}
+
+:deep(.fc-timegrid-col:hover) {
+  background-color: hsl(var(--muted) / 0.3);
+}
+
+/* Selection styling */
+:deep(.fc-highlight) {
+  background-color: hsl(var(--primary) / 0.1);
+  border: 2px solid hsl(var(--primary));
+}
+
+/* Dark mode selection styling moved to global main.css */
+
+/* Grid lines for better structure */
+:deep(.fc-scrollgrid-section-body td) {
+  border-color: hsl(var(--border)) / 0.2;
+}
+
+/* Dark mode grid lines moved to global main.css */
 </style>

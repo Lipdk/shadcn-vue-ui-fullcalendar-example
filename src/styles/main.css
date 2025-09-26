@@ -213,3 +213,102 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* FullCalendar Dark Mode Styles */
+.dark .fc .fc-scrollgrid .fc-scrollgrid-section-sticky > * {
+  background-color: hsl(var(--primary) / 0.2) !important;
+}
+
+.dark .fc-theme-standard td,
+.dark .fc-theme-standard th,
+.dark .fc-theme-standard .fc-scrollgrid {
+  border-color: hsl(var(--border)) !important;
+}
+
+/* Dark mode FullCalendar comprehensive styling */
+.dark .fc {
+  --fc-page-bg-color: hsl(var(--background));
+  --fc-neutral-bg-color: hsl(var(--muted));
+  --fc-neutral-text-color: hsl(var(--foreground));
+  --fc-border-color: hsl(var(--border));
+  color: hsl(var(--foreground));
+}
+
+.dark .fc * {
+  color: hsl(var(--foreground));
+}
+
+/* Header styling */
+.dark .fc-col-header-cell-cushion {
+  color: hsl(var(--foreground)) !important;
+  font-weight: 600;
+}
+
+.dark .fc-col-header-cell {
+  background-color: hsl(var(--muted) / 0.5);
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.dark .fc-col-header-row {
+  background-color: hsl(var(--muted) / 0.4);
+}
+
+/* Day numbers - all possible classes */
+.dark .fc-daygrid-day-number,
+.dark .fc-col-header-day-number,
+.dark .fc-daygrid-day-top,
+.dark .fc-daygrid-day-frame,
+.dark .fc-scrollgrid-section-header td {
+  color: hsl(var(--foreground)) !important;
+  opacity: 1 !important;
+  font-weight: 600;
+}
+
+.dark .fc-daygrid-day-number a,
+.dark .fc-col-header-day-number a {
+  color: hsl(var(--foreground)) !important;
+  text-decoration: none;
+}
+
+/* Background colors */
+.dark .fc-daygrid-day,
+.dark .fc-timegrid-col {
+  background-color: hsl(var(--background));
+}
+
+/* Time slots */
+.dark .fc-timegrid-slot-label {
+  background-color: hsl(var(--background));
+  border-right: 1px solid hsl(var(--border));
+}
+
+.dark .fc-timegrid-slot-label-cushion,
+.dark .fc-timegrid-axis-cushion {
+  color: hsl(var(--muted-foreground));
+  font-weight: 500;
+}
+
+/* Today styling */
+.dark .fc-day-today {
+  background-color: hsl(var(--muted) / 0.4) !important;
+}
+
+/* Events */
+.dark .fc-event {
+  border: 1px solid hsl(var(--border)) !important;
+}
+
+/* Selection and highlight */
+.dark .fc-highlight {
+  background-color: hsl(var(--primary) / 0.2);
+  border: 2px solid hsl(var(--primary));
+}
+
+/* Grid lines */
+.dark .fc-scrollgrid-section-body td {
+  border: 1px solid hsl(var(--border)) !important;
+}
+
+.dark .fc-timegrid-slots td {
+  border-top: 1px solid hsl(var(--border)) !important;
+}

@@ -8,7 +8,9 @@
           @update:model-value="handleTabChange"
           class="w-full"
         >
-          <div class="flex justify-center mb-8">
+          <div
+            class="flex flex-col sm:flex-row justify-center items-center gap-4 mb-8"
+          >
             <TabsList class="grid w-full max-w-md grid-cols-2">
               <TabsTrigger value="calendar" class="flex items-center gap-2">
                 <CalendarIcon class="w-4 h-4" />
@@ -22,6 +24,9 @@
                 Scheduling Assistant
               </TabsTrigger>
             </TabsList>
+            <div class="flex-shrink-0">
+              <ThemeToggle />
+            </div>
           </div>
 
           <TabsContent value="calendar" class="space-y-6">
@@ -86,9 +91,14 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { Calendar as CalendarIcon, Clock } from 'lucide-vue-next';
 import Calendar from '@/components/Calendar.vue';
 import AvailabilityChecker from '@/components/AvailabilityChecker.vue';
+import ThemeToggle from '@/components/ThemeToggle.vue';
+import { useTheme } from '@/composables/useTheme';
 
 const activeTab = ref('calendar');
 const calendarRef = ref<InstanceType<typeof Calendar> | null>(null);
+
+// Initialize theme
+useTheme();
 
 async function handleTabChange(newTab: string) {
   activeTab.value = newTab;

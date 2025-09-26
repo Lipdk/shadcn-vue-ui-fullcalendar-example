@@ -1,8 +1,6 @@
 <template>
   <Card class="p-4">
-    <div
-      class="flex flex-col sm:flex-row gap-import { Button } from '@/components/ui/button' import { Card } from '@/components/ui/card' import { Separator } from '@/components/ui/separator' import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip' import { ChevronLeft, ChevronRight, Plus } from 'lucide-vue-next'ems-center justify-between"
-    >
+    <div class="flex flex-col sm:flex-row gap-2 items-center justify-between">
       <!-- Date info and navigation -->
       <div class="flex items-center gap-2">
         <div class="flex items-center gap-1">
