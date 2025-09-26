@@ -1,0 +1,16 @@
+export { default as Tabs } from './tabs.vue'
+export { default as TabsList } from './tabs-list.vue'
+export { default as TabsTrigger } from './tabs-trigger.vue'
+export { default as TabsContent } from './tabs-content.vue'
+export { default as Separator } from './separator.vue'
+export { default as Button } from './button.vue'
+export { default as Card } from './card.vue'
+
+// Re-export for different import styles
+export * from './tabs.vue'
+export * from './tabs-list.vue'
+export * from './tabs-trigger.vue'
+export * from './tabs-content.vue'
+export * from './separator.vue'
+export * from './button.vue'
+export * from './card.vue'
