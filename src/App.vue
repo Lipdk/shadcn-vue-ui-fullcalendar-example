@@ -68,9 +68,22 @@
           <div
             class="flex flex-col sm:flex-row justify-between items-center gap-4"
           >
-            <p class="text-sm text-muted-foreground">
-              Built with Vue 3, FullCalendar, and shadcn-vue
-            </p>
+            <div class="text-center sm:text-left">
+              <p class="text-sm text-muted-foreground">
+                Built with Vue 3, FullCalendar, and shadcn-vue
+              </p>
+              <p class="text-sm text-muted-foreground mt-1">
+                Made with ❤️ by
+                <a
+                  href="https://github.com/Lipdk/shadcn-vue-ui-fullcalendar-example"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="font-medium text-primary hover:underline transition-colors"
+                >
+                  Lipdk
+                </a>
+              </p>
+            </div>
             <div class="flex items-center gap-2">
               <Badge variant="outline" class="text-xs"> TypeScript </Badge>
               <Badge variant="outline" class="text-xs"> Tailwind CSS </Badge>
