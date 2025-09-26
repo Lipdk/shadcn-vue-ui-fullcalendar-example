@@ -2,7 +2,7 @@
 
 A flexible calendar application built with Vue 3, Vite, Shadcn-Vue, and FullCalendar. This project demonstrates how to integrate a modern calendar component with a beautiful UI library in a Vue ecosystem.
 
-![FullCalendar with Shadcn-Vue](https://github.com/user-attachments/assets/02abdeac-e681-4147-9e8c-48c2c3d21791)
+![FullCalendar with Shadcn-Vue](https://i.postimg.cc/gJc3mpZJ/demo.png)
 
 ## Features
 
@@ -30,18 +30,20 @@ A flexible calendar application built with Vue 3, Vite, Shadcn-Vue, and FullCale
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - npm, yarn, or pnpm
 
 ### Installation
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/Lipdk/shadcn-vue-ui-fullcalendar-example.git
 cd shadcn-vue-ui-fullcalendar-example
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 # or
@@ -51,6 +53,7 @@ pnpm install
 ```
 
 3. Start the development server:
+
 ```bash
 npm run dev
 # or
@@ -103,6 +106,7 @@ src/
 ### Theming
 
 The project uses Tailwind CSS with CSS variables for theming. Customize colors and styling in:
+
 - `src/styles/main.css` - CSS variables for themes
 - `tailwind.config.ts` - Tailwind configuration
 
